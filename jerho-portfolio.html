@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jerho Silva — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6F8;
+    --surface:#FFFFFF;
+    --ink:#14213D;
+    --ink-soft:#5A6478;
+    --line:#E2E5EA;
+    --amber:#E8871E;
+    --amber-bg:#FFF3E2;
+    --green:#2F855A;
+    --green-bg:#E8F5EE;
+    --blue:#2B6CB0;
+    --blue-bg:#E9F1FA;
+    --radius:10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  section{padding:80px 24px;}
+  .wrap{max-width:1000px; margin:0 auto;}
+  h1,h2,h3{font-weight:700; letter-spacing:-0.01em;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(245,246,248,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    position:relative;
+    max-width:1000px; margin:0 auto; padding:16px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-brand{font-weight:700; font-size:15px;}
+  .nav-brand .mono{color:var(--ink-soft); font-size:12px; font-weight:500;}
+  .nav-links{display:flex; gap:28px; list-style:none;}
+  .nav-links a{
+    font-size:13px; font-weight:500; color:var(--ink-soft);
+    text-decoration:none; transition:color .15s;
+  }
+  .nav-links a:hover{color:var(--ink);}
+  .nav-toggle{
+    display:none; background:none; border:1px solid var(--line); border-radius:6px;
+    width:34px; height:34px; cursor:pointer; align-items:center; justify-content:center;
+    flex-direction:column; gap:4px;
+  }
+  .nav-toggle span{width:16px; height:2px; background:var(--ink); display:block;}
+  @media (max-width:640px){
+    .nav-links{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      background:var(--surface); border-bottom:1px solid var(--line);
+      flex-direction:column; gap:0; padding:8px 24px;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links li{border-top:1px solid var(--line);}
+    .nav-links li:first-child{border-top:none;}
+    .nav-links a{display:block; padding:14px 0;}
+    .nav-toggle{display:flex;}
+  }
+
+  /* ---------- HERO / TICKET HEADER ---------- */
+  .hero{padding:64px 24px 40px;}
+  .ticket-meta{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    margin-bottom:20px;
+  }
+  .ticket-id{
+    font-size:12px; color:var(--ink-soft); letter-spacing:.03em;
+  }
+  .badge{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:12px; font-weight:600; letter-spacing:.02em;
+    padding:5px 10px; border-radius:999px;
+  }
+  .badge.open{background:var(--green-bg); color:var(--green);}
+  .badge-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--green);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(47,133,90,0.4);}
+    70%{box-shadow:0 0 0 6px rgba(47,133,90,0);}
+    100%{box-shadow:0 0 0 0 rgba(47,133,90,0);}
+  }
+  .hero h1{
+    font-size:clamp(34px, 6vw, 56px);
+    line-height:1.05;
+    margin-bottom:12px;
+  }
+  .hero .role-line{
+    font-size:clamp(15px, 2.4vw, 19px);
+    color:var(--ink-soft);
+    font-weight:500;
+    margin-bottom:28px;
+    max-width:640px;
+  }
+  .hero .role-line strong{color:var(--ink); font-weight:600;}
+  .ticket-fields{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    max-width:720px;
+  }
+  .field{background:var(--surface); padding:14px 16px;}
+  .field .label{
+    font-size:10px; text-transform:uppercase; letter-spacing:.08em;
+    color:var(--ink-soft); margin-bottom:4px; font-weight:600;
+  }
+  .field .value{font-size:13.5px; font-weight:600;}
+  .hero-actions{margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:8px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    border:1px solid transparent; transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(20,33,61,0.25);}
+  .btn-ghost{border-color:var(--line); background:var(--surface); color:var(--ink);}
+  .btn-ghost:hover{transform:translateY(-1px); border-color:var(--ink-soft);}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{margin-bottom:36px;}
+  .eyebrow{
+    font-size:11px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--amber); font-weight:600; margin-bottom:8px;
+  }
+  .section-head h2{font-size:clamp(22px,3vw,30px);}
+  .section-head p{color:var(--ink-soft); margin-top:8px; max-width:560px; font-size:14.5px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:40px;}
+  @media (max-width:720px){ .about-grid{grid-template-columns:1fr;} }
+  .about-grid p{color:var(--ink-soft); margin-bottom:14px; font-size:15px;}
+  .about-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px;
+  }
+  .about-card .label{
+    font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft);
+    font-weight:600; margin-bottom:10px;
+  }
+  .about-card ul{list-style:none;}
+  .about-card li{
+    display:flex; justify-content:space-between; font-size:13.5px;
+    padding:9px 0; border-bottom:1px solid var(--line);
+  }
+  .about-card li:last-child{border-bottom:none;}
+  .about-card li span:first-child{color:var(--ink-soft);}
+  .about-card li span:last-child{font-weight:600; text-align:right;}
+
+  /* ---------- TRACK TICKETS ---------- */
+  .tracks{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+  }
+  @media (max-width:820px){ .tracks{grid-template-columns:1fr;} }
+  .ticket-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; transition:transform .18s, box-shadow .18s, border-color .18s;
+  }
+  .ticket-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(20,33,61,0.08);
+    border-color:#D5D9E0;
+  }
+  .ticket-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;}
+  .ticket-top .mono{font-size:11px; color:var(--ink-soft);}
+  .tag{
+    font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:999px;
+  }
+  .tag.priority-high{background:var(--amber-bg); color:var(--amber);}
+  .tag.priority-med{background:var(--blue-bg); color:var(--blue);}
+  .ticket-card h3{font-size:17px; margin-bottom:10px;}
+  .ticket-card p{color:var(--ink-soft); font-size:13.5px; margin-bottom:14px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:6px;}
+  .chip{
+    font-size:11px; font-weight:500; padding:4px 9px;
+    background:var(--bg); border:1px solid var(--line); border-radius:6px;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- EXPERIENCE (closed ticket) ---------- */
+  .closed-ticket{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px; position:relative; overflow:hidden;
+  }
+  .closed-ticket::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--green);
+  }
+  .closed-head{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .closed-head h3{font-size:19px;}
+  .closed-head .mono{font-size:12px; color:var(--ink-soft);}
+  .badge.resolved{background:var(--green-bg); color:var(--green);}
+  .closed-ticket ul{margin-top:14px; padding-left:18px; color:var(--ink-soft); font-size:14px;}
+  .closed-ticket li{margin-bottom:8px;}
+  .duration{font-size:12.5px; color:var(--ink-soft); margin-top:16px;}
+
+  /* ---------- PROJECTS ---------- */
+  .project-list{display:flex; flex-direction:column; gap:14px;}
+  .project-row{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px 22px; display:grid; grid-template-columns:140px 100px 1fr auto; gap:18px; align-items:center;
+    transition:box-shadow .18s, border-color .18s;
+  }
+  .project-row:hover{ box-shadow:0 8px 20px rgba(20,33,61,0.07); border-color:#D5D9E0; }
+  @media (max-width:680px){
+    .project-row{grid-template-columns:1fr; }
+  }
+  .project-id{font-size:12px; color:var(--ink-soft);}
+  .project-body h3{font-size:16px; margin-bottom:6px;}
+  .project-body p{font-size:13.5px; color:var(--ink-soft); margin-bottom:10px;}
+  .project-status{justify-self:end;}
+  @media (max-width:680px){ .project-status{justify-self:start; order:3;} }
+
+  /* project screenshot placeholder */
+  .project-thumb{
+    width:140px; height:90px; border-radius:8px; overflow:hidden;
+    border:1.5px dashed #C7CCD4; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px;
+    color:var(--ink-soft); text-align:center;
+  }
+  .project-thumb img{width:100%; height:100%; object-fit:cover; display:block; border-radius:6px;}
+  .project-thumb .thumb-icon{font-size:18px; opacity:.5;}
+  .project-thumb .thumb-text{font-size:9.5px; font-weight:600; letter-spacing:.03em; text-transform:uppercase; opacity:.6; padding:0 6px;}
+  @media (max-width:680px){ .project-thumb{width:100%; height:140px; order:1;} }
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:24px;}
+  @media (max-width:640px){ .skills-grid{grid-template-columns:1fr;} }
+  .skill-group .label{
+    font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--amber);
+    font-weight:600; margin-bottom:12px;
+  }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-row{
+    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px;
+  }
+  .edu-row h3{font-size:16px; margin-bottom:4px;}
+  .edu-row p{color:var(--ink-soft); font-size:13.5px;}
+  .edu-row .mono{font-size:12px; color:var(--ink-soft);}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{
+    background:var(--ink); color:#fff; padding:64px 24px 40px;
+  }
+  .footer-inner{max-width:1000px; margin:0 auto;}
+  .reply-box{
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    border-radius:var(--radius); padding:26px; margin-bottom:28px;
+  }
+  .reply-box .label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; opacity:.6; margin-bottom:10px;}
+  .reply-box h3{font-size:20px; margin-bottom:8px;}
+  .reply-box p{opacity:.75; font-size:14px; margin-bottom:18px;}
+  .contact-links{display:flex; flex-wrap:wrap; gap:12px;}
+  .contact-links a{
+    display:inline-flex; align-items:center; gap:8px;
+    background:#fff; color:var(--ink); font-weight:600; font-size:13.5px;
+    padding:10px 16px; border-radius:8px; text-decoration:none;
+    transition:transform .15s;
+  }
+  .contact-links a:hover{transform:translateY(-1px);}
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    font-size:12px; opacity:.5;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">JERHO SILVA <span class="mono">/ portfolio</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#tracks">Tracks</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="ticket-meta">
+    <span class="ticket-id mono">TICKET #JS-0001</span>
+    <span class="badge open"><span class="badge-dot"></span>OPEN TO WORK</span>
+  </div>
+  <h1>Jerho Silva</h1>
+  <p class="role-line">
+    BS Information Technology graduate applying across <strong>technical support</strong>,
+    <strong>software engineering</strong>, and <strong>admin / accounting</strong> tracks —
+    built on real ticketing-system, documentation, and coordination experience.
+  </p>
+
+  <div class="ticket-fields">
+    <div class="field">
+      <div class="label">Location</div>
+      <div class="value">Mandaluyong, PH</div>
+    </div>
+    <div class="field">
+      <div class="label">Education</div>
+      <div class="value">BSIT, 2026</div>
+    </div>
+    <div class="field">
+      <div class="label">Availability</div>
+      <div class="value">Immediate</div>
+    </div>
+    <div class="field">
+      <div class="label">Assigned to</div>
+      <div class="value">Your team</div>
+    </div>
+    <div class="field">
+      <div class="label">Contact</div>
+      <div class="value">0994 601 9136</div>
+    </div>
+  </div>
+
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="mailto:jerholsilva@gmail.com">Email me</a>
+    <a class="btn btn-ghost" href="tel:+639946019136">Call me</a>
+    <a class="btn btn-ghost" href="#projects">View projects</a>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">About</div>
+      <h2 style="margin-bottom:16px;">A generalist who reads the whole ticket before touching it</h2>
+      <p>
+        I graduated with a BS in Information Technology from Arellano University, Plaridel Campus,
+        and spent 486 hours as an IT Administrative intern at Pru Life UK — handling technical
+        support, ticketing systems, documentation, and coordination across internal teams.
+      </p>
+      <p>
+        That mix is why I'm not chasing one lane. I'm equally comfortable troubleshooting a
+        user issue, writing a script, or keeping a spreadsheet and a process airtight — and I'd
+        rather bring that flexibility to a team than force-fit myself into a single title.
+      </p>
+    </div>
+    <div class="about-card">
+      <div class="label">Quick Facts</div>
+      <ul>
+        <li><span>Degree</span><span>BS Information Technology</span></li>
+        <li><span>School</span><span>Arellano University — Plaridel</span></li>
+        <li><span>Internship</span><span>Pru Life UK, 486 hrs</span></li>
+        <li><span>Base</span><span>Mandaluyong, PH</span></li>
+        <li><span>Email</span><span>jerholsilva@gmail.com</span></li>
+        <li><span>Phone</span><span>0994 601 9136</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="tracks">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">What I'm open to</div>
+      <h2>Three tracks, one candidate</h2>
+      <p>Each of these draws on the same underlying skill set — just pointed in different directions.</p>
+    </div>
+    <div class="tracks">
+      <div class="ticket-card">
+        <div class="ticket-top">
+          <span class="mono">TRACK-01</span>
+          <span class="tag priority-high">Primary</span>
+        </div>
+        <h3>IT / Technical Support</h3>
+        <p>Helpdesk, service desk, and technical support roles — troubleshooting, ticket resolution, and end-user documentation.</p>
+        <div class="chip-row">
+          <span class="chip">Ticketing Systems</span>
+          <span class="chip">Troubleshooting</span>
+          <span class="chip">Documentation</span>
+        </div>
+      </div>
+      <div class="ticket-card">
+        <div class="ticket-top">
+          <span class="mono">TRACK-02</span>
+          <span class="tag priority-med">Active</span>
+        </div>
+        <h3>Software Engineering</h3>
+        <p>Junior developer roles — building and maintaining web applications with a focus on clean, working code.</p>
+        <div class="chip-row">
+          <span class="chip">PHP</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">APIs</span>
+        </div>
+      </div>
+      <div class="ticket-card">
+        <div class="ticket-top">
+          <span class="mono">TRACK-03</span>
+          <span class="tag priority-med">Active</span>
+        </div>
+        <h3>Admin / Accounting Support</h3>
+        <p>Admin assistant, accounting assistant, and BPO support roles — accuracy, coordination, and process follow-through.</p>
+        <div class="chip-row">
+          <span class="chip">MS Office</span>
+          <span class="chip">Data Accuracy</span>
+          <span class="chip">Coordination</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Experience</div>
+      <h2>Work history</h2>
+    </div>
+    <div class="closed-ticket">
+      <div class="closed-head">
+        <div>
+          <span class="mono">TICKET #INTERN-2026</span>
+          <h3 style="margin-top:6px;">IT Administrative Intern — Pru Life UK</h3>
+        </div>
+        <span class="badge resolved">RESOLVED</span>
+      </div>
+      <ul>
+        <li>Provided technical support and resolved issues logged through internal ticketing systems.</li>
+        <li>Maintained documentation for IT processes and internal records.</li>
+        <li>Coordinated with internal teams to keep support requests moving and closed on time.</li>
+      </ul>
+      <div class="duration mono">Duration: 486 hours</div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Projects</div>
+      <h2>Academic & personal builds</h2>
+      <p>Coursework projects that reflect how I actually work through a problem end to end.</p>
+    </div>
+    <div class="project-list">
+      <div class="project-row">
+        <!-- To add your screenshot: replace this whole <div class="project-thumb">...</div>
+             with: <div class="project-thumb"><img src="YOUR-IMAGE-PATH.jpg" alt="Inventory Management System screenshot"></div> -->
+        <div class="project-thumb">
+          <span class="thumb-icon">🖼</span>
+          <span class="thumb-text">Insert Screenshot</span>
+        </div>
+        <span class="project-id mono">PROJ-001</span>
+        <div class="project-body">
+          <h3>Inventory Management System</h3>
+          <p>A system for tracking stock levels, item records, and inventory movement.</p>
+          <div class="chip-row">
+            <span class="chip">PHP</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">API</span>
+          </div>
+        </div>
+        <span class="project-status tag priority-med">Complete</span>
+      </div>
+      <div class="project-row">
+        <!-- To add your screenshot: replace this whole <div class="project-thumb">...</div>
+             with: <div class="project-thumb"><img src="YOUR-IMAGE-PATH.jpg" alt="Barangay Information Website screenshot"></div> -->
+        <div class="project-thumb">
+          <span class="thumb-icon">🖼</span>
+          <span class="thumb-text">Insert Screenshot</span>
+        </div>
+        <span class="project-id mono">PROJ-002</span>
+        <div class="project-body">
+          <h3>Barangay Information Website</h3>
+          <p>A web platform for managing and displaying local barangay records and information.</p>
+          <div class="chip-row">
+            <span class="chip">PHP</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">API</span>
+          </div>
+        </div>
+        <span class="project-status tag priority-med">Complete</span>
+      </div>
+      <div class="project-row">
+        <!-- To add your screenshot: replace this whole <div class="project-thumb">...</div>
+             with: <div class="project-thumb"><img src="YOUR-IMAGE-PATH.jpg" alt="Simple Shopping Interface screenshot"></div> -->
+        <div class="project-thumb">
+          <span class="thumb-icon">🖼</span>
+          <span class="thumb-text">Insert Screenshot</span>
+        </div>
+        <span class="project-id mono">PROJ-003</span>
+        <div class="project-body">
+          <h3>Simple Shopping Interface</h3>
+          <p>A basic e-commerce style front end for browsing and selecting products.</p>
+          <div class="chip-row">
+            <span class="chip">PHP</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">API</span>
+          </div>
+        </div>
+        <span class="project-status tag priority-med">Complete</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Skills</div>
+      <h2>What I bring to the ticket queue</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="label">Technical</div>
+        <div class="chip-row">
+          <span class="chip">PHP</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">CSS</span>
+          <span class="chip">APIs</span>
+          <span class="chip">Ticketing Systems</span>
+          <span class="chip">Troubleshooting</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="label">Professional</div>
+        <div class="chip-row">
+          <span class="chip">Documentation</span>
+          <span class="chip">Team Coordination</span>
+          <span class="chip">Data Accuracy</span>
+          <span class="chip">MS Office</span>
+          <span class="chip">Process Follow-through</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Education</div>
+      <h2>Background</h2>
+    </div>
+    <div class="edu-row">
+      <div>
+        <h3>BS Information Technology</h3>
+        <p>Arellano University, Plaridel Campus</p>
+      </div>
+      <span class="mono">Class of 2026</span>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="reply-box">
+      <div class="label mono">Reply to this ticket</div>
+      <h3>Let's talk about the role.</h3>
+      <p>Open to IT support, software engineering, and admin/accounting roles — reach out and I'll respond quickly.</p>
+      <div class="contact-links">
+        <a href="mailto:jerholsilva@gmail.com">✉ jerholsilva@gmail.com</a>
+        <a href="tel:+639946019136">☎ 0994 601 9136</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Jerho Silva — Portfolio</span>
+      <span>Mandaluyong, Philippines</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Handle all in-page anchor links (nav + hero button) with JS scrolling
+  // instead of native href navigation, which some embedded viewers
+  // mistake for leaving the page.
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').slice(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+</body>
+</html>
